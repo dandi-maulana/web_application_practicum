@@ -3,6 +3,8 @@
 use App\Http\Controllers\GreetingsController;
 use App\Http\Controllers\HelloController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController; 
+Route::get('/home', [HomeController::class, 'index']);
 
 Route::get('/', [HelloController::class, 'index']);
 Route::get('/hello/{name}', [HelloController::class, 'sayHello']);

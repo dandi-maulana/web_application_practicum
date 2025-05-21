@@ -12,6 +12,21 @@ Route::get('/hello/{name}', [HelloController::class, 'sayHello']);
 Route::get('/welcome', [GreetingsController::class, 'welcome']);
 Route::get('/hello/{name}/{npm}', [GreetingsController::class, 'greet']);
 
+#3
+use App\Http\Controllers\PortfolioController;
+
+Route::get('/home', [PortfolioController::class, 'home']);
+Route::get('/profil', [PortfolioController::class, 'profil']);
+Route::get('/pendidikan', [PortfolioController::class, 'pendidikan']);
+Route::get('/keahlian', [PortfolioController::class, 'keahlian']);
+
+// Route untuk halaman utama
+Route::redirect('/', '/home');
+
+
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });

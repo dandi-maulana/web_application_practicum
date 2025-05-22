@@ -25,12 +25,16 @@ Route::get('/keahlian', [PortfolioController::class, 'keahlian']);
 Route::redirect('/', '/home');
 #--------
 
-#Practicum #5
+#Practicum #5.1
 use App\Http\Controllers\NilaiController; 
   
 Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
 #---------
-
+#Practicum #5.2
+use App\Http\Controllers\MahasiswaController; 
+  
+Route::resource('mahasiswa', MahasiswaController::class); 
+#---------
 
 Route::get('/', function () {
     return view('welcome');
@@ -43,7 +47,6 @@ Route::get('/', function () {
 Route::get('/hello/{name}', function ($name) {
     return 'Hello, ' . $name . '!';
 });
-
 
 Route::get('/hello/{name}/{npm}', function ($name , $npm) {
     return 'Hello, ' . $name . ' ' . $npm . '!';

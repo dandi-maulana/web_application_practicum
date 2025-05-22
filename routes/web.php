@@ -12,7 +12,8 @@ Route::get('/hello/{name}', [HelloController::class, 'sayHello']);
 Route::get('/welcome', [GreetingsController::class, 'welcome']);
 Route::get('/hello/{name}/{npm}', [GreetingsController::class, 'greet']);
 
-#3
+#-----
+#Practicum #3
 use App\Http\Controllers\PortfolioController;
 
 Route::get('/home', [PortfolioController::class, 'home']);
@@ -22,9 +23,13 @@ Route::get('/keahlian', [PortfolioController::class, 'keahlian']);
 
 // Route untuk halaman utama
 Route::redirect('/', '/home');
+#--------
 
-
-
+#Practicum #5
+use App\Http\Controllers\NilaiController; 
+  
+Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
+#---------
 
 
 Route::get('/', function () {

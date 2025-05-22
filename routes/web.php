@@ -35,7 +35,9 @@ use App\Http\Controllers\MahasiswaController;
   
 Route::resource('mahasiswa', MahasiswaController::class); 
 #---------
-
+#Practicum #task
+Route::get('/nilai/{mahasiswaId}', [NilaiController::class, 'showNilaiMahasiswa'])->name('tampilnilai');
+#---------
 Route::get('/', function () {
     return view('welcome');
 });

@@ -22,7 +22,7 @@
             @foreach ($dataNilai as $nilai) 
             <tr> 
                 <td>{{ $loop->iteration }}</td> 
-                <td>{{ $nilai->mahasiswa->npm }}</td> 
+                <td>{{ $nilai->mahasiswa->nim }}</td> 
                 <td>{{ $nilai->mahasiswa->nama }}</td> 
                 <td>{{ $nilai->matakuliah->nama }}</td> 
                 <td>{{ $nilai->nilai }}</td> 

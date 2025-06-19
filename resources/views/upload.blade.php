@@ -12,7 +12,7 @@
             <div class="alert alert-success">
                 {{ session('success') }}
                 <br>
-                <a href="{{ Storage::url(session('file')) }}" target="_blank">Lihat File</a>
+                <img href="{{ Storage::url(session('file')) }}" target="_blank">Lihat File</img>
             </div>
         @endif
 

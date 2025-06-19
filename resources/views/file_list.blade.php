@@ -15,7 +15,7 @@
     <ul class="list-group">
         @foreach ($files as $file)
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="{{ Storage::url($file) }}" target="_blank">{{ basename($file) }}</a>
+                <img href="{{ Storage::url($file) }}" target="_blank">{{ basename($file) }}</img>
                 <form action="{{ route('files.delete', basename($file)) }}" method="POST">
                     @csrf
                     @method('DELETE')

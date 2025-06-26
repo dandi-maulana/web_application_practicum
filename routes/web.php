@@ -53,3 +53,23 @@ Route::get('/hello/{name}', function ($name) {
 Route::get('/hello/{name}/{npm}', function ($name , $npm) {
     return 'Hello, ' . $name . ' ' . $npm . '!';
 });
+
+use App\Http\Controllers\FileUploadController;
+
+Route::get('/upload', [FileUploadController::class, 'showUploadForm'])->name('upload.form');
+Route::post('/upload', [FileUploadController::class, 'storeFile'])->name('upload.store');
+Route::get('/files', [FileUploadController::class, 'listFiles'])->name('files.list');
+Route::delete('/files/{filename}', [FileUploadController::class, 'deleteFile'])->name('files.delete');
+
+
+use App\Http\Controllers\ScanController;
+
+Route::get('/scankode', [ScanController::class, 'scanKode']);
+// Route::post('/scan', [ScanController::class, 'processScan']);
+
+Route::get('/scan-data-produk', fn() => view('scandataproduk'));
+Route::post('/scan-produk', [ScanController::class, 'processScanProduk']);
+
+
+
+

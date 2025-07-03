@@ -71,5 +71,7 @@ Route::get('/scan-data-produk', fn() => view('scandataproduk'));
 Route::post('/scan-produk', [ScanController::class, 'processScanProduk']);
 
 
-
+//modul 10
+use App\Http\Controllers\UserController;
+Route::resource('users', UserController::class);
 

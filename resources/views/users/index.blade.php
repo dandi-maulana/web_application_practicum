@@ -18,6 +18,7 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Level</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,7 +27,11 @@
             <tr>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
+                <td>{{ $user->level }}</td>
                 <td>
+                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
                     <button class="btn btn-danger btn-sm"
                         onclick="confirmDelete({{ $user->id }})">
                         Delete

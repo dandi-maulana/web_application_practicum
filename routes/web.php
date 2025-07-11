@@ -75,3 +75,8 @@ Route::post('/scan-produk', [ScanController::class, 'processScanProduk']);
 use App\Http\Controllers\UserController;
 Route::resource('users', UserController::class);
 
+//module 6//------
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//-------

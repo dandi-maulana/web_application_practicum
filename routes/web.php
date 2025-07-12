@@ -117,3 +117,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('owner', [UserController::class, 'showOwner'])->name('owner');
     });
 });
+
+Route::middleware(['auth', 'check.age'])->group(function () {
+    Route::get('/adult-content', function () {
+        return view('adult');
+    })->name('adult.content');
+});

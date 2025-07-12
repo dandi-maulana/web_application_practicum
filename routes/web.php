@@ -76,7 +76,27 @@ use App\Http\Controllers\UserController;
 Route::resource('users', UserController::class);
 
 //module 6//------
-Auth::routes();
+//praktikum 1 sekaligus tugas 1
+// Auth::routes();
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//praktikum 2 sekaligus tugas 1
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/login', [AuthController::class, 'cekLogin'])->name('cek-login');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/logout', function () {
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'Anda logged out.');
+    })->name('logout');
+});
 //-------

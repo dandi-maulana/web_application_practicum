@@ -1,4 +1,16 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h2>Welcome, {{ Auth::user()->name }}</h2>
+    <a href="{{ route('logout') }}">Logout</a>
+</body>
+</html>
+
+
+{{--@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -20,4 +32,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection--}}

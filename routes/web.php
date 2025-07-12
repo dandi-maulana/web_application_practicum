@@ -83,20 +83,37 @@ Route::resource('users', UserController::class);
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+// Route::get('/login', function () {
+//     return view('auth.login');
+// })->name('login');
 
-Route::post('/login', [AuthController::class, 'cekLogin'])->name('cek-login');
+// Route::post('/login', [AuthController::class, 'cekLogin'])->name('cek-login');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+// Route::middleware('auth')->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
 
-    Route::get('/logout', function () {
-        Auth::logout();
-        return redirect()->route('login')->with('success', 'Anda logged out.');
-    })->name('logout');
-});
+//     Route::get('/logout', function () {
+//         Auth::logout();
+//         return redirect()->route('login')->with('success', 'Anda logged out.');
+//     })->name('logout');
+// });
 //-------
+
+//modul 7
+Route::get('login', [UserController::class, 'showLoginForm'])->name('login');
+Route::post('login', [UserController::class, 'login'])->name('login');
+Route::get('logout', [UserController::class, 'logout'])->name('logout');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('home', [UserController::class, 'showHome'])->name('home');
+    
+    Route::middleware(['role:admin'])->group(function () {
+        Route::get('admin', [UserController::class, 'showAdmin'])->name('admin');
+    });
+    
+    Route::middleware(['role:owner'])->group(function () {
+        Route::get('owner', [UserController::class, 'showOwner'])->name('owner');
+    });
+});

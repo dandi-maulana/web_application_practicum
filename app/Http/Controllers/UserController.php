@@ -2,74 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function showLoginForm()
     {
-        $users = User::all();
-        return view('users.index', compact('users'));
+        return view('login');
     }
 
-    public function create()
+    public function login(Request $request)
     {
-        return view('users.create');
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('home');
+        } else {
+            return redirect()->back()->withErrors(['email' => 'Invalid credentials.']);
+        }
     }
 
-    public function store(Request $request)
+    public function showHome()
     {
-        $request->validate([
-            'name'     => 'required|max:255',
-            'email'    => 'required|email|unique:users',
-            'level'    => 'required',
-            'password' => 'required|min:8',
-        ]);
-
-        User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'level'    => $request->level,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        return view('home');
     }
 
-    public function show(User $user)
+    public function showAdmin()
     {
-        return view('users.show', compact('user'));
+        return view('admin');
     }
 
-    public function edit(User $user)
+    public function showOwner()
     {
-        return view('users.edit', compact('user'));
+        return view('owner');
     }
 
-    public function update(Request $request, User $user)
+    public function logout()
     {
-        $request->validate([
-            'name'     => 'required|max:255',
-            'email'    => 'required|email|unique:users,email,' . $user->id,
-            'level'    => 'required',
-            'password' => 'nullable|min:8',
-        ]);
-
-        $user->update([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'level'    => $request->level,
-            'password' => $request->password ? Hash::make($request->password) : $user->password,
-        ]);
-
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
-    }
-
-    public function destroy(User $user)
-    {
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        Auth::logout();
+        return redirect('login');
     }
 }

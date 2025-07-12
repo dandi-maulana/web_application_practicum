@@ -14,32 +14,54 @@ class FileUploadController extends Controller
 
     public function storeFile(Request $request)
     {
-        // Validasi file yang diunggah
         $request->validate([
             'file' => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-        // Simpan file ke dalam direktori storage/app/public/uploads
         $file = $request->file('file');
         $path = $file->store('public/uploads');
 
-        // Redirect kembali dengan pesan sukses dan path file
-        return back()->with('success', 'File uploaded successfully!')
-                     ->with('file', $path);
+        return redirect()->route('files.list')->with('success', 'File uploaded successfully!');
     }
 
     public function listFiles()
-
     {
         $files = Storage::files('public/uploads');
-        return view('file_list', compact('files'));
+        
+        // Filter hanya file gambar dan PDF
+        $filteredFiles = [];
+        foreach ($files as $file) {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+            if (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'pdf'])) {
+                $url = Storage::url($file);
+                
+                // Debug: tampilkan URL yang dihasilkan
+                // dd($url); // Uncomment ini untuk debug
+                
+                $filteredFiles[] = [
+                    'path' => $file,
+                    'name' => basename($file),
+                    'url' => $url,
+                    'size' => Storage::size($file),
+                    'type' => $extension,
+                    'full_path' => storage_path('app/' . $file), // untuk debug
+                    'exists' => Storage::exists($file) // untuk debug
+                ];
+            }
+        }
+        
+        return view('file_list', compact('filteredFiles'));
     }
 
     public function deleteFile($filename)
     {
-        Storage::delete('public/uploads/' . $filename);
-        return back()->with('success', 'File deleted successfully!');
+        $filePath = 'public/uploads/' . $filename;
+        
+        if (Storage::exists($filePath)) {
+            Storage::delete($filePath);
+            return back()->with('success', 'File deleted successfully!');
+        }
+        
+        return back()->with('error', 'File not found!');
     }
-
-
 }

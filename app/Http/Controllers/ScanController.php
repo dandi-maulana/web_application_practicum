@@ -22,6 +22,16 @@ class ScanController extends Controller
         $product = Product::where('sku', $scanData)->first();
 
         if ($product) {
+            // Store scan result in session for transfer to cart
+            session(['last_scanned_product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'sku' => $product->sku,
+                'price' => $product->price,
+                'description' => $product->description,
+                'image' => $product->image_url
+            ]]);
+
             return response()->json([
                 'success' => true,
                 'code' => $scanData,
@@ -32,7 +42,8 @@ class ScanController extends Controller
                     'price' => $product->price,
                     'description' => $product->description,
                     'image' => $product->image_url
-                ]
+                ],
+                'redirect_url' => route('scan.data.produk')
             ]);
         } else {
             return response()->json([
@@ -77,6 +88,27 @@ class ScanController extends Controller
             'message' => 'Produk tidak ditemukan.',
             'code' => $code
         ], 404);
+    }
+
+    // Get last scanned product from session
+    public function getLastScannedProduct()
+    {
+        $product = session('last_scanned_product');
+        
+        if ($product) {
+            // Clear the session after retrieving
+            session()->forget('last_scanned_product');
+            
+            return response()->json([
+                'success' => true,
+                'product' => $product
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No scanned product found'
+        ]);
     }
 
     // New method to get camera permissions status

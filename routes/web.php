@@ -70,8 +70,11 @@ use App\Http\Controllers\ScanController;
 
 Route::get('/scankode', [ScanController::class, 'scanKode']);
 Route::post('/scan', [ScanController::class, 'processScan']);
-Route::get('/scan-data-produk', [ScanController::class, 'scanDataProduk']);
+Route::get('/scan-data-produk', [ScanController::class, 'scanDataProduk'])->name('scan.data.produk');
 Route::post('/scan-produk', [ScanController::class, 'processScanProduk']);
+
+// New route for getting last scanned product
+Route::get('/api/last-scanned-product', [ScanController::class, 'getLastScannedProduct']);
 
 //INI MODUL 9 PASTIKAN
 Route::get('/generate-qr/{sku}', function($sku) {

@@ -10,6 +10,20 @@
     <div class="container mt-4">
         <h1 class="text-center mb-4">Scan Data Produk - Shopping Cart</h1>
         
+        <!-- Navigation buttons -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <a href="/scankode" class="btn btn-outline-primary">
+                    <i class="fas fa-camera"></i> Scan dengan Kamera
+                </a>
+            </div>
+            <div class="col-md-6 text-end">
+                <button id="clearCartBtn" class="btn btn-outline-danger">
+                    <i class="fas fa-trash"></i> Clear Cart
+                </button>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-md-8">
                 <div class="mb-3">
@@ -81,6 +95,20 @@
     <script>
         let cart = [];
 
+        // Load cart from localStorage on page load
+        function loadCartFromStorage() {
+            const savedCart = localStorage.getItem('scanCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartTable();
+            }
+        }
+
+        // Save cart to localStorage
+        function saveCartToStorage() {
+            localStorage.setItem('scanCart', JSON.stringify(cart));
+        }
+
         function updateCartTable() {
             const tbody = document.getElementById('cartTableBody');
             tbody.innerHTML = '';
@@ -121,6 +149,7 @@
             }
 
             document.getElementById('sumTotal').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+            saveCartToStorage();
         }
 
         // Event listeners
@@ -137,6 +166,15 @@
             if (e.target.classList.contains('delete-btn')) {
                 const index = e.target.getAttribute('data-index');
                 cart.splice(index, 1);
+                updateCartTable();
+            }
+        });
+
+        // Clear cart button
+        document.getElementById('clearCartBtn').addEventListener('click', function() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua item dari cart?')) {
+                cart = [];
+                localStorage.removeItem('scanCart');
                 updateCartTable();
             }
         });
@@ -207,7 +245,7 @@
         // Focus on input when page loads
         window.onload = function() {
             document.getElementById('barcodeInput').focus();
-            updateCartTable();
+            loadCartFromStorage();
         };
     </script>
 </body>

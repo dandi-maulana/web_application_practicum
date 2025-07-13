@@ -54,14 +54,16 @@ Route::get('/hello/{name}/{npm}', function ($name , $npm) {
     return 'Hello, ' . $name . ' ' . $npm . '!';
 });
 
+
+//modul 8
 use App\Http\Controllers\FileUploadController;
 
 Route::get('/upload', [FileUploadController::class, 'showUploadForm'])->name('upload.form');
 Route::post('/upload', [FileUploadController::class, 'storeFile'])->name('upload.store');
 Route::get('/files', [FileUploadController::class, 'listFiles'])->name('files.list');
 Route::delete('/files/{filename}', [FileUploadController::class, 'deleteFile'])->name('files.delete');
-
-
+Route::get('/files/download/{filename}', [FileUploadController::class, 'downloadFile'])->name('files.download');
+//------
 use App\Http\Controllers\ScanController;
 
 Route::get('/scankode', [ScanController::class, 'scanKode']);

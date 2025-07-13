@@ -64,13 +64,32 @@ Route::get('/files', [FileUploadController::class, 'listFiles'])->name('files.li
 Route::delete('/files/{filename}', [FileUploadController::class, 'deleteFile'])->name('files.delete');
 Route::get('/files/download/{filename}', [FileUploadController::class, 'downloadFile'])->name('files.download');
 //------
+
+//modul 9
 use App\Http\Controllers\ScanController;
 
 Route::get('/scankode', [ScanController::class, 'scanKode']);
-// Route::post('/scan', [ScanController::class, 'processScan']);
-
-Route::get('/scan-data-produk', fn() => view('scandataproduk'));
+Route::post('/scan', [ScanController::class, 'processScan']);
+Route::get('/scan-data-produk', [ScanController::class, 'scanDataProduk']);
 Route::post('/scan-produk', [ScanController::class, 'processScanProduk']);
+
+//INI MODUL 9 PASTIKAN
+Route::get('/generate-qr/{sku}', function($sku) {
+    $product = \App\Models\Product::where('sku', $sku)->first();
+    
+    if (!$product) {
+        abort(404);
+    }
+    
+    // Generate QR code (butuh library tambahan)
+    return response()->json([
+        'sku' => $sku,
+        'product' => $product->name,
+        'qr_data' => $sku
+    ]);
+});
+//
+
 
 
 //modul 10

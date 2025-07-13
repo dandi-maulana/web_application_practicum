@@ -10,8 +10,8 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        <h2>File List</h2>
-                        <a href="{{ route('upload.form') }}" class="btn btn-primary btn-sm float-right">Upload New File</a>
+                        <h2>Kumpulan file</h2>
+                        <a href="{{ route('upload.form') }}" class="btn btn-primary btn-sm float-right">Upload file baru</a>
                     </div>
                     <div class="card-body">
                         @if (session('success'))
